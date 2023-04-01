@@ -1,23 +1,37 @@
+# DOCKERFILE API
+
+
+
 FROM python:3.9
 
+WORKDIR /code/back
 
-RUN pip install --upgrade pip
+COPY requirements.txt ./
 
-RUN apt-get update && apt-get -y install cron && apt-get -y install htop
-
-RUN apt-get install libpq-dev python-dev -y
-
-COPY ./requirements.txt .
+RUN python -m pip install --upgrade pip
 
 RUN pip install -r requirements.txt
 
-COPY . /app
+RUN apt-get update && apt-get -y install cron && apt-get -y install htop
+RUN apt-get install libpq-dev python-dev -y
 
-WORKDIR /app
 
-COPY ./entry.sh /
+COPY . /code/back
+# ==========================
 
-ENTRYPOINT ["sh", "/entry.sh"]
+
+
+
+RUN pwd
+RUN echo 
+RUN echo 
+RUN echo 
+RUN ls 
+
+
+
+
+ENTRYPOINT ["sh", "entry.sh"]
 
 
 

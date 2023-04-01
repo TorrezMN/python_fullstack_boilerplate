@@ -1,22 +1,41 @@
 version: '3.7'
 
 services:
+
   back:
     build:
       context: ./back
       dockerfile: Dockerfile
     env_file:
       - back/.back_env
-    working_dir: /code
+    working_dir: /code/back
     depends_on:
       - db
     volumes:
-      - ./back:/code
+      - ./back:/code/back
     ports:
       - "8000:8000"   
     restart: on-failure
     networks:
-      - nginx_network
+      - full_stack_network
+
+  front:
+    build:
+      context: ./front
+      dockerfile: Dockerfile
+    working_dir: /code/front
+    restart: on-failure
+    environment:
+      DEBUG: 1
+    volumes:
+      - ./front:/code
+    ports:
+      - 5000:5000
+    depends_on:
+      - db
+      - back
+    networks:
+      - full_stack_network
 
 
   db:
@@ -30,13 +49,13 @@ services:
     ports:
       - '5433:5433'
     networks:
-      - nginx_network
+      - full_stack_network
 
 
 
 
 networks:
-  nginx_network:
+  full_stack_network:
     driver: bridge
 
 volumes:
