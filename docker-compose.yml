@@ -23,12 +23,12 @@ services:
     build:
       context: ./front
       dockerfile: Dockerfile
-    working_dir: /code/front
+    working_dir: /app
     restart: on-failure
     environment:
       DEBUG: 1
     volumes:
-      - ./front:/code
+      - ./front:/app
     ports:
       - 5000:5000
     depends_on:
